@@ -114,8 +114,10 @@ function updateTimer() {
         if (timeLeft <= 0) {
             gameOver = true;
             document.getElementById("message").textContent = "Game Over!";
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
         }
-        document.getElementById("score").textContent = "Time: " + timeLeft;
+        document.getElementById("time").textContent = "Time: " + timeLeft;
     }
 }
 
@@ -129,29 +131,29 @@ function gameLoop() {
 
     drawCharacter(batman);
     drawCharacter(joker);
-
-    updateTimer();
-
-    if (!gameOver) {
-        requestAnimationFrame(gameLoop);
     }
-}
+
 
 // Start the game
 function startGame() {
     score = 0;
     timeLeft = 30;
     gameOver = false;
+
     joker.x = Math.random() * (canvas.width - joker.width);
     joker.y = Math.random() * (canvas.height - joker.height);
-
-    // Random initial direction for Joker
     joker.dx = (Math.random() < 0.5 ? 1 : -1) * joker.speed;
     joker.dy = (Math.random() < 0.5 ? 1 : -1) * joker.speed;
 
     document.getElementById("message").textContent = "Chase the Joker!";
-    gameLoop();
+    document.getElementById("score").textContent = "Score: " + score;
+    document.getElementById("time").textContent = "Time: " + timeLeft;
+
+    clearInterval(gameInterval);
+    clearInterval(timerInterval);
+
     gameInterval = setInterval(gameLoop, 1000 / 60);
+    timerInterval = setInterval(updateTimer, 1000);
 }
 
 // Start the game when the page loads
