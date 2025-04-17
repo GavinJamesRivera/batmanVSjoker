@@ -28,7 +28,7 @@ let timeLeft = 30;
 let gameOver = false;
 let gamePaused = false;
 let gameInterval;
-let jokerAIInterval;
+let timerInterval;
 
 // Event listeners for controlling Batman
 document.addEventListener("keydown", keyDownHandler);
@@ -101,8 +101,8 @@ function checkCollision() {
 
 // Capture Joker
 function captureJoker() {
-    score += 100;  // Increase score when Batman captures Joker
-    joker.x = Math.random() * (canvas.width - joker.width);  // Move Joker to a random position
+    score += 100;
+    joker.x = Math.random() * (canvas.width - joker.width);
     joker.y = Math.random() * (canvas.height - joker.height);
     document.getElementById("score").textContent = "Score: " + score;
 }
@@ -131,8 +131,7 @@ function gameLoop() {
 
     drawCharacter(batman);
     drawCharacter(joker);
-    }
-
+}
 
 // Start the game
 function startGame() {
@@ -156,5 +155,5 @@ function startGame() {
     timerInterval = setInterval(updateTimer, 1000);
 }
 
-// Start the game when the page loads
+// Start the game on page load
 startGame();
