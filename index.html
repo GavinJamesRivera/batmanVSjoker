@@ -5,16 +5,25 @@
     <title>Full-Page Canvas</title>
 </head>
 <body>
-    <div id="score">Score: 0</div>
+    <div id="startScreen">
+        <h1>Welcome to the Game!</h1>
+        <p id="startHighScore">High Score: 0</p>
+        <button onclick="startGame()">Play</button>
+    </div>
+
+    <div id="score">Score: 0 | High Score: 0</div>
     <div id="timer">Time Left: 30s</div>
+
     <div id="gameOver" style="display:none;">
-    <h1>Game Over</h1>
-    <p id="finalScore"></p>
-    <button onclick="restartGame()">Play Again</button>
-</div>
+        <h1>Game Over</h1>
+        <p id="finalScore"></p>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+
     <div class="batman"></div>
     <div class="joker"></div>
     <canvas id="myCanvas"></canvas>
+
     <script src="script.js"></script>
 </body>
 </html>
