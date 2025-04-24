@@ -127,7 +127,7 @@ function moveJoker() {
 
     if (score > highScore && !highScoreBeaten) {
       highScoreBeaten = true;
-      congratsMessage.textContent = "🎉 New High Score! Amazing job!";
+      congratsMessage.textContent = "New High Score!";
     }
 
     const maxWidth = window.innerWidth - joker.offsetWidth;
@@ -191,44 +191,91 @@ function endGame() {
 }
 
 function restartGame() {
-  score = 0;
-  timeLeft = 30;
-  gameActive = true;
-  highScoreBeaten = false;
-  congratsMessage.textContent = "";
-
-  updateScoreDisplay();
-  timerDisplay.textContent = `Time Left: ${timeLeft}s`;
   gameOverScreen.style.display = "none";
 
-  batmanTop = 100;
-  batmanLeft = 100;
-  batman.style.top = `${batmanTop}px`;
-  batman.style.left = `${batmanLeft}px`;
+  const countdownDisplay = document.getElementById("preGameCountdown");
+  let countdown = 5;
+  countdownDisplay.textContent = countdown;
+  countdownDisplay.style.display = "block";
 
-  jokerTop = 200;
-  jokerLeft = 200;
-  speedX = getRandomSpeed();
-  speedY = getRandomSpeed();
-  joker.style.left = `${jokerLeft}px`;
-  joker.style.top = `${jokerTop}px`;
+  const countdownTimer = setInterval(() => {
+    countdown--;
+    if (countdown > 0) {
+      countdownDisplay.textContent = countdown;
+    } else {
+      clearInterval(countdownTimer);
+      countdownDisplay.style.display = "none";
 
-  gameLoop();
-  moveJoker();
-  startCountdown();
-  setTimeout(endGame, 30000);
+      score = 0;
+      timeLeft = 30;
+      gameActive = true;
+      highScoreBeaten = false;
+      congratsMessage.textContent = "";
+
+      updateScoreDisplay();
+      timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+
+      batmanTop = window.innerHeight / 2 - batman.offsetHeight / 2;
+      batmanLeft = window.innerWidth / 2 - batman.offsetWidth / 2;
+      batman.style.top = `${batmanTop}px`;
+      batman.style.left = `${batmanLeft}px`;
+
+      jokerTop = 200;
+      jokerLeft = 200;
+      speedX = getRandomSpeed();
+      speedY = getRandomSpeed();
+      joker.style.left = `${jokerLeft}px`;
+      joker.style.top = `${jokerTop}px`;
+
+      gameLoop();
+      moveJoker();
+      startCountdown();
+      setTimeout(endGame, 30000);
+    }
+  }, 1000);
 }
 
 function startGame() {
   startScreen.style.display = "none";
-  gameActive = true;
-  score = 0;
-  timeLeft = 30;
-  updateScoreDisplay();
-  timerDisplay.textContent = `Time Left: ${timeLeft}s`;
 
-  gameLoop();
-  moveJoker();
-  startCountdown();
-  setTimeout(endGame, 30000);
+  const countdownDisplay = document.getElementById("preGameCountdown");
+  let countdown = 5;
+  countdownDisplay.textContent = countdown;
+  countdownDisplay.style.display = "block";
+
+  const countdownTimer = setInterval(() => {
+    countdown--;
+    if (countdown > 0) {
+      countdownDisplay.textContent = countdown;
+    } else {
+      clearInterval(countdownTimer);
+      countdownDisplay.style.display = "none";
+
+      gameActive = true;
+      score = 0;
+      timeLeft = 30;
+      highScoreBeaten = false;
+      congratsMessage.textContent = "";
+
+      updateScoreDisplay();
+      timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+
+      batmanTop = window.innerHeight / 2 - batman.offsetHeight / 2;
+      batmanLeft = window.innerWidth / 2 - batman.offsetWidth / 2;
+      batman.style.top = `${batmanTop}px`;
+      batman.style.left = `${batmanLeft}px`;
+
+      jokerTop = 200;
+      jokerLeft = 200;
+      speedX = getRandomSpeed();
+      speedY = getRandomSpeed();
+      joker.style.left = `${jokerLeft}px`;
+      joker.style.top = `${jokerTop}px`;
+
+      gameLoop();
+      moveJoker();
+      startCountdown();
+      setTimeout(endGame, 30000);
+    }
+  }, 1000);
 }
