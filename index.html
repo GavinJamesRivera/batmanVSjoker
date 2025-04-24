@@ -3,11 +3,17 @@
 <head>
     <link rel="stylesheet" href="styles.css">
     <title>Full-Page Canvas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="startScreen">
-        <h1>Welcome to the Game!</h1>
+        <h1>Batman vs Joker</h1>
         <p id="startHighScore">High Score: 0</p>
+        <p class="instructions">
+            Use the arrow keys to move Batman.<br>
+            Catch the Joker to earn 100 points!<br>
+            You have 30 seconds. Good luck!
+        </p>
         <button onclick="startGame()">Play</button>
     </div>
 
@@ -19,6 +25,8 @@
         <p id="finalScore"></p>
         <button onclick="restartGame()">Play Again</button>
     </div>
+
+    <div id="preGameCountdown" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); font-size:48px; color:white; z-index:1002;"></div>
 
     <div class="batman"></div>
     <div class="joker"></div>
