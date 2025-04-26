@@ -1,74 +1,67 @@
+/* Basic Setup */
 body, html {
-    margin: 0;
-    height: 100%;
-    font-family: 'Press Start 2P', monospace;
-    background-color: black;
-}
-canvas {
-    display: block;
-}
-button {
+  margin: 0;
+  height: 100%;
   font-family: 'Press Start 2P', monospace;
-  color: white;
   background-color: black;
 }
+
+/* Canvas */
+canvas {
+  display: block;
+}
+
+/* General Button Styling */
+button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px; /* Unified size */
+  background: black;
+  color: white;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* Pause Button (Special Style: clean, no border) */
+#pauseButton {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px; /* Unified size */
+  padding: 5px 10px;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Score and High Score */
 #score {
   position: fixed;
   top: 20px;
   left: 20px;
-  font-size: 24px;
+  font-size: 18px; /* Unified size */
   color: white;
   z-index: 999;
 }
 
-.batman, .joker {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+#currentScore, #currentHighScore {
+  margin-bottom: 5px;
 }
 
-.batman {
-    background-color: white;
-    background-image: url("batman.png");
-}
-
-.joker {
-    background-color: green;
-  background-image: url("joker.png");
-}
-
-#gameOver {
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: black;
-  color: white;
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  z-index: 1000;
-}
-#gameOver button {
-  padding: 10px 20px;
-  font-size: 18px;
-  margin-top: 20px;
-  cursor: pointer;
-}
-
+/* Timer */
 #timer {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 24px;
+  font-size: 18px; /* Unified size */
   color: white;
   z-index: 999;
 }
 
+/* Start Screen */
 #startScreen {
   position: fixed;
   top: 0;
@@ -85,16 +78,97 @@ button {
 }
 
 #startScreen .instructions {
-  font-size: 18px;
+  font-size: 14px; /* Slightly smaller for instructions */
   margin-top: 10px;
   text-align: center;
   line-height: 1.5;
   max-width: 80%;
 }
 
+/* Start Screen Button */
 #startScreen button {
   padding: 15px 30px;
-  font-size: 20px;
+  font-size: 18px; /* Unified size */
+  background: black;
+  color: white;
+  border: 2px solid white;
   cursor: pointer;
   margin-top: 20px;
+}
+
+/* Game Over Screen */
+#gameOver {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  z-index: 1000;
+}
+
+#gameOver button {
+  padding: 10px 20px;
+  font-size: 18px; /* Unified size */
+  margin-top: 20px;
+  background: black;
+  color: white;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* Pause Menu */
+#pauseMenu {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  z-index: 1002;
+}
+
+#pauseMenu button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px; /* Unified size */
+  background: black;
+  color: white;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* Powerup Box */
+.powerup {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: purple;
+  z-index: 998;
+}
+
+/* Player and Enemy */
+.batman, .joker {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.batman {
+  background-color: white;
+  background-image: url("batman.png");
+}
+
+.joker {
+  background-color: green;
+  background-image: url("joker.png");
 }
