@@ -5,6 +5,8 @@ let countdownInterval;
 let highScoreBeaten = false;
 
 const scoreDisplay = document.getElementById("score");
+const currentScoreDisplay = document.getElementById("currentScore");
+const currentHighScoreDisplay = document.getElementById("currentHighScore");
 const timerDisplay = document.getElementById("timer");
 const gameOverScreen = document.getElementById("gameOver");
 const finalScore = document.getElementById("finalScore");
@@ -42,8 +44,55 @@ window.addEventListener("keyup", (e) => {
   keysPressed[e.code] = false;
 });
 
+const joker = document.getElementsByClassName("joker")[0];
+let jokerTop = 200;
+let jokerLeft = 200;
+let speedX = getRandomSpeed();
+let speedY = getRandomSpeed();
+
+// POWERUP
+const powerup = document.createElement("div");
+powerup.classList.add("powerup");
+powerup.style.display = "none";
+document.body.appendChild(powerup);
+
+let powerupTimer;
+let spawnPowerupInterval;
+
+function getRandomSpeed() {
+  let speed = 0;
+  while (speed === 0) {
+    speed = Math.floor(Math.random() * 5) - 2;
+  }
+  return speed;
+}
+
 function updateScoreDisplay() {
-  scoreDisplay.textContent = `Score: ${score} | High Score: ${highScore}`;
+  currentScoreDisplay.textContent = `Score: ${score}`;
+
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScore", highScore);
+    currentHighScoreDisplay.textContent = `High Score: ${highScore}`;
+    if (!highScoreBeaten) {
+      highScoreBeaten = true;
+      congratsMessage.textContent = "New High Score!";
+    }
+  } else {
+    currentHighScoreDisplay.textContent = `High Score: ${highScore}`;
+  }
+}
+
+function isColliding(el1, el2) {
+  const rect1 = el1.getBoundingClientRect();
+  const rect2 = el2.getBoundingClientRect();
+
+  return !(
+    rect1.right < rect2.left ||
+    rect1.left > rect2.right ||
+    rect1.bottom < rect2.top ||
+    rect1.top > rect2.bottom
+  );
 }
 
 function gameLoop() {
@@ -70,39 +119,9 @@ function gameLoop() {
   batman.style.left = `${batmanLeft}px`;
   batman.style.top = `${batmanTop}px`;
 
+  checkPowerupCollision();
+
   requestAnimationFrame(gameLoop);
-}
-
-const joker = document.getElementsByClassName("joker")[0];
-let jokerTop = 200;
-let jokerLeft = 200;
-let speedX = getRandomSpeed();
-let speedY = getRandomSpeed();
-
-function getRandomSpeed() {
-  let speed = 0;
-  while (speed === 0) {
-    speed = Math.floor(Math.random() * 5) - 2;
-  }
-  return speed;
-}
-
-function updateJokerDirectionIfNeeded() {
-  const jokerWidth = joker.offsetWidth;
-  const jokerHeight = joker.offsetHeight;
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-
-  if (jokerLeft <= 0 || jokerLeft + jokerWidth >= windowWidth) {
-    speedX = getRandomSpeed();
-  }
-
-  if (jokerTop <= 0 || jokerTop + jokerHeight >= windowHeight) {
-    speedY = getRandomSpeed();
-  }
-
-  jokerLeft = Math.max(0, Math.min(jokerLeft, windowWidth - jokerWidth));
-  jokerTop = Math.max(0, Math.min(jokerTop, windowHeight - jokerHeight));
 }
 
 function moveJoker() {
@@ -125,11 +144,6 @@ function moveJoker() {
     score += 100;
     updateScoreDisplay();
 
-    if (score > highScore && !highScoreBeaten) {
-      highScoreBeaten = true;
-      congratsMessage.textContent = "New High Score!";
-    }
-
     const maxWidth = window.innerWidth - joker.offsetWidth;
     const maxHeight = window.innerHeight - joker.offsetHeight;
 
@@ -146,16 +160,22 @@ function moveJoker() {
   requestAnimationFrame(moveJoker);
 }
 
-function isColliding(el1, el2) {
-  const rect1 = el1.getBoundingClientRect();
-  const rect2 = el2.getBoundingClientRect();
+function updateJokerDirectionIfNeeded() {
+  const jokerWidth = joker.offsetWidth;
+  const jokerHeight = joker.offsetHeight;
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
 
-  return !(
-    rect1.right < rect2.left ||
-    rect1.left > rect2.right ||
-    rect1.bottom < rect2.top ||
-    rect1.top > rect2.bottom
-  );
+  if (jokerLeft <= 0 || jokerLeft + jokerWidth >= windowWidth) {
+    speedX = getRandomSpeed();
+  }
+
+  if (jokerTop <= 0 || jokerTop + jokerHeight >= windowHeight) {
+    speedY = getRandomSpeed();
+  }
+
+  jokerLeft = Math.max(0, Math.min(jokerLeft, windowWidth - jokerWidth));
+  jokerTop = Math.max(0, Math.min(jokerTop, windowHeight - jokerHeight));
 }
 
 function startCountdown() {
@@ -172,6 +192,7 @@ function startCountdown() {
 
     if (timeLeft <= 0) {
       clearInterval(countdownInterval);
+      endGame();
     }
   }, 1000);
 }
@@ -181,13 +202,11 @@ function endGame() {
 
   finalScore.textContent = `Your final score is: ${score}`;
 
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem("highScore", highScore);
-  }
-
   highScoreDisplay.textContent = `High Score: ${highScore}`;
   gameOverScreen.style.display = "block";
+
+  clearInterval(spawnPowerupInterval);
+  powerup.style.display = "none";
 }
 
 function restartGame() {
@@ -230,7 +249,7 @@ function restartGame() {
       gameLoop();
       moveJoker();
       startCountdown();
-      setTimeout(endGame, 30000);
+      spawnPowerupInterval = setInterval(spawnPowerup, 15000);
     }
   }, 1000);
 }
@@ -275,7 +294,62 @@ function startGame() {
       gameLoop();
       moveJoker();
       startCountdown();
-      setTimeout(endGame, 30000);
+      spawnPowerupInterval = setInterval(spawnPowerup, 15000);
     }
   }, 1000);
+}
+
+// POWERUP FUNCTIONS
+function spawnPowerup() {
+  if (!gameActive) return;
+
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+
+  const x = Math.random() * (windowWidth - 50);
+  const y = Math.random() * (windowHeight - 50);
+
+  powerup.style.left = `${x}px`;
+  powerup.style.top = `${y}px`;
+  powerup.style.display = "block";
+
+  clearTimeout(powerupTimer);
+  powerupTimer = setTimeout(() => {
+    powerup.style.display = "none";
+  }, 5000);
+}
+
+function checkPowerupCollision() {
+  if (powerup.style.display === "none") return;
+
+  if (isColliding(powerup, batman)) {
+    timeLeft += 15;
+    timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+    powerup.style.display = "none";
+  }
+}
+
+// PAUSE FUNCTIONS
+function pauseGame() {
+  if (!gameActive) return;
+
+  gameActive = false;
+  document.getElementById("pauseMenu").style.display = "block";
+}
+
+function resumeGame() {
+  if (gameActive) return;
+
+  gameActive = true;
+  document.getElementById("pauseMenu").style.display = "none";
+
+  gameLoop();
+  moveJoker();
+  startCountdown(); // <<< ADD THIS LINE
+}
+
+function forceEndGame() {
+  gameActive = false;
+  document.getElementById("pauseMenu").style.display = "none";
+  endGame();
 }
