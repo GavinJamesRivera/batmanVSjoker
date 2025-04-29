@@ -141,7 +141,15 @@ function moveJoker() {
   }
 
   if (isColliding(joker, batman)) {
-    score += 100;
+    if (timeLeft >= 20 && timeLeft <=30){
+      score += 200;
+    }
+    if (timeLeft >= 10 && timeLeft <= 19){
+      score += 150;
+    }
+    if (timeLeft <= 9 && timeLeft >= 0) {
+      score += 100;
+    }
     updateScoreDisplay();
 
     const maxWidth = window.innerWidth - joker.offsetWidth;
