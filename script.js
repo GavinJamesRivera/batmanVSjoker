@@ -141,7 +141,8 @@ function moveJoker() {
   }
 
   if (isColliding(joker, batman)) {
-    if (timeLeft >= 20 && timeLeft <=30){
+   // Ajust the amount of points you get based on the time you have left
+    if (timeLeft >= 20){
       score += 200;
     }
     if (timeLeft >= 10 && timeLeft <= 19){
