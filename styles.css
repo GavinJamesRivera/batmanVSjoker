@@ -1,174 +1,147 @@
-/* Basic Setup */
 body, html {
-  margin: 0;
-  height: 100%;
-  font-family: 'Press Start 2P', monospace;
-  background-color: black;
+    margin: 0;
+    height: 100%;
+    font-family: 'Press Start 2P', monospace;
+    background-color: black;
 }
 
-/* Canvas */
 canvas {
-  display: block;
+    display: block;
 }
 
-/* General Button Styling */
 button {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 18px; /* Unified size */
-  background: black;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    background: black;
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
+    margin-bottom: 15px; /* space between buttons */
 }
 
-/* Pause Button (Special Style: clean, no border) */
 #pauseButton {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 18px; /* Unified size */
-  padding: 5px 10px;
-  background: none;
-  color: white;
-  border: none;
-  cursor: pointer;
-  z-index: 1001;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
 }
 
-/* Score and High Score */
 #score {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  font-size: 18px; /* Unified size */
-  color: white;
-  z-index: 999;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 18px;
+    color: white;
+    z-index: 999;
 }
 
-#currentScore, #currentHighScore {
-  margin-bottom: 5px;
+#currentScore, #currentHighScore, #lives {
+    margin-bottom: 5px;
 }
 
-/* Timer */
 #timer {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px; /* Unified size */
-  color: white;
-  z-index: 999;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    color: white;
+    z-index: 999;
 }
 
-/* Start Screen */
-#startScreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1001;
+#levelDisplay {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    color: white;
+    z-index: 999;
 }
 
-#startScreen .instructions {
-  font-size: 14px; /* Slightly smaller for instructions */
-  margin-top: 10px;
-  text-align: center;
-  line-height: 1.5;
-  max-width: 80%;
+#startScreen, #instructionsMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
 }
 
-/* Start Screen Button */
-#startScreen button {
-  padding: 15px 30px;
-  font-size: 18px; /* Unified size */
-  background: black;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
-  margin-top: 20px;
+#instructionsMenu p {
+    font-size: 14px;
+    text-align: center;
+    max-width: 80%;
+    line-height: 1.5;
 }
 
-/* Game Over Screen */
-#gameOver {
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: black;
-  color: white;
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  z-index: 1000;
+#gameOver, #pauseMenu {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: black;
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 1002;
 }
 
-#gameOver button {
-  padding: 10px 20px;
-  font-size: 18px; /* Unified size */
-  margin-top: 20px;
-  background: black;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
+.powerup, .life-powerup, .bomb {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 998;
 }
 
-/* Pause Menu */
-#pauseMenu {
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: black;
-  color: white;
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  z-index: 1002;
-}
+.powerup { background-color: purple; }
+.life-powerup { background-color: red; }
+.bomb { background-color: orange; }
 
-#pauseMenu button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 18px; /* Unified size */
-  background: black;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
-}
-
-/* Powerup Box */
-.powerup {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: purple;
-  z-index: 998;
-}
-
-/* Player and Enemy */
 .batman, .joker {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.batman {
-  background-color: white;
-  background-image: url("batman.png");
+.batman { background-color: white; background-image: url("batman.png"); }
+.joker { background-color: green; background-image: url("joker.png"); }
+
+#preGameCountdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    color: white;
+    z-index: 1003;
 }
 
-.joker {
-  background-color: green;
-  background-image: url("joker.png");
+#levelUpPopup {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    color: yellow;
+    background: black;
+    padding: 20px;
+    border: 3px solid yellow;
+    border-radius: 10px;
+    z-index: 1003;
 }
