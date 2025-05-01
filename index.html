@@ -9,28 +9,46 @@
     <div id="startScreen">
         <h1>Batman vs Joker</h1>
         <p id="startHighScore">High Score: 0</p>
-        <p class="instructions">
-            Use the arrow keys to move Batman.<br>
-            Catch the Joker to earn 100 points!<br>
-            Collect purple squares to get 15 extra seconds!<br>
-            You have 30 seconds. Good luck!
-        </p>
         <button onclick="startGame()">Play</button>
+        <button onclick="showInstructions()" style="margin-top: 15px;">Instructions</button>
+    </div>
+
+    <div id="instructionsMenu" style="display:none;">
+        <h1>Instructions</h1>
+        <p>
+            Use arrow keys or WASD to move Batman.<br>
+            Catch Joker for 100 points.<br>
+            Collect purple squares (+15s time).<br>
+            Collect red squares (+1 life).<br>
+            Avoid orange bombs (starting level 4).<br>
+            You have 3 lives. Good luck!
+        </p>
+        <h2>Level Guide</h2>
+        <p style="font-size: 14px; text-align: center;">
+            Level 1: Slow Joker, no bombs.<br>
+            Level 2: Faster Joker, no bombs.<br>
+            Level 3: Max Joker speed, no bombs.<br>
+            Level 4+: Max Joker speed + bombs dropped by Joker!<br>
+        </p>
+        <button onclick="backToMenu()">Back</button>
     </div>
 
     <div id="score">
         <div id="currentScore">Score: 0</div>
         <div id="currentHighScore">High Score: 0</div>
+        <div id="lives">Lives: 3</div>
     </div>
 
     <button id="pauseButton" onclick="pauseGame()">||</button>
 
     <div id="timer">Time Left: 30s</div>
+    <div id="levelDisplay">Level: 1</div>
 
     <div id="gameOver" style="display:none;">
         <h1>Game Over</h1>
         <p id="finalScore"></p>
         <button onclick="restartGame()">Play Again</button>
+        <button onclick="returnToMainMenu()">Main Menu</button>
     </div>
 
     <div id="pauseMenu" style="display:none;">
@@ -39,7 +57,9 @@
         <button onclick="forceEndGame()">End Game</button>
     </div>
 
-    <div id="preGameCountdown" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); font-size:48px; color:white; z-index:1002;"></div>
+    <div id="preGameCountdown" style="display:none;"></div>
+
+    <div id="levelUpPopup" style="display:none;">Level Up!</div>
 
     <div class="batman"></div>
     <div class="joker"></div>
